@@ -10,7 +10,15 @@ install_software() {
         echo "$package_name is already installed."
     fi
 }
-
+# Define function to install Filebrowser if not installed
+install_filebrowser() {
+    if ! command -v filebrowser &> /dev/null; then
+        # Download and execute the Filebrowser installation script
+        curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash
+    else
+        echo "Filebrowser is already installed."
+    fi
+}
 
 # Define function to install Make
 install_make() {
@@ -107,3 +115,4 @@ declare -A install_functions=(
 install_functions+=(["Chrome"]="install_chrome")
 install_functions+=(["Make"]="install_make")
 install_functions+=(["Java 11"]="install_java11")
+install_functions+=(["Filebrowser"]="install_filebrowser")
