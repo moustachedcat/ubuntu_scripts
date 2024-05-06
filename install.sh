@@ -3,12 +3,11 @@
 # Source installation functions
 source ./install_functions/install_functions.sh
 
-
 # Main script
 echo "Choose software to install:"
-choices=("Transmission" "Plex" "Apache2" "rclone")
 
-# Display menu
+# Generate menu dynamically
+choices=("${!install_functions[@]}")
 for i in "${!choices[@]}"; do
     echo "$((i+1)). ${choices[$i]}"
 done
@@ -24,14 +23,14 @@ for choice_index in "${choices_array[@]}"; do
         choice="${choices[$choice_index]}"
         if [[ -n "${install_functions[$choice]}" ]]; then
             if type "${install_functions[$choice]}" &>/dev/null; then
-                echo "$choice is already installed."
-            else
                 "${install_functions[$choice]}"
+            else
+                echo "Error: Function '${install_functions[$choice]}' not found."
             fi
         else
-            echo "Invalid choice: $choice"
+            echo "Error: Invalid choice: $choice"
         fi
     else
-        echo "Invalid choice: $choice_index"
+        echo "Error: Invalid choice: $choice_index"
     fi
 done
